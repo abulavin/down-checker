@@ -19,7 +19,11 @@ def restart_apache():
 def send_request():
     url = parser['url']['url']
     logging.info(f"Checking HTTP status at: {url}")
-    response = requests.get(url)
+    if parser.has_option("auth", "hash"):
+        response = requests.get(url, headers={"Authorization": f"Bearer {parser['auth']['hash']}"})
+    else:
+        response = requests.get(url)
+
     logging.info(f"Received status code {response.status_code}")
     if not response.ok:
         restart_apache()
@@ -33,7 +37,6 @@ if __name__ == "__main__":
     )
     schedule.every().hour.do(send_request)
     logging.info("Starting checking job.")
-    restart_apache()
     while True:
         schedule.run_pending()
         time.sleep(1)
