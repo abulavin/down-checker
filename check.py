@@ -32,6 +32,7 @@ if __name__ == "__main__":
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     schedule.every().hour.do(send_request)
+    logging.info("Starting checking job.")
     while True:
         schedule.run_pending()
         time.sleep(1)
