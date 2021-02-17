@@ -13,7 +13,7 @@ def restart_apache():
     logging.info("Restarting apache")
     command = "/usr/sbin/httpd -d $HOME/apache -k restart"
     command_expanded = os.path.expandvars(command)
-    subprocess.run(command_expanded)
+    subprocess.run(command_expanded, shell=True)
 
 
 def send_request():
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     )
     schedule.every().hour.do(send_request)
     logging.info("Starting checking job.")
+    restart_apache()
     while True:
         schedule.run_pending()
         time.sleep(1)
