@@ -39,4 +39,5 @@ if __name__ == "__main__":
     logging.info("Starting checking job.")
     while True:
         schedule.run_pending()
-        time.sleep(1)
+	# Sleep for a minute
+        time.sleep(60)
